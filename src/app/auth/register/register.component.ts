@@ -13,14 +13,20 @@ export class RegisterComponent {
   constructor(private us:UserService){}
   
   insertUser:any;
-  insertUsers(name:any,email:any,password:any){
+  insertUsers(name:any,email:any,age:any,phone:any,password:any){
     this.insertUser = {
       "name" : name,
       "email": email,
+      "age":  age,
+      "phone": phone,
       "password":password
     }
      this.us.registerUser(this.insertUser).subscribe(res=>{
-      console.log(res)
+      if(res.creado == "0"){
+        alert("falla")
+      }else{
+        alert("creado correctamente")
+      }
     })
   }
 }

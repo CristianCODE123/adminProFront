@@ -1,0 +1,75 @@
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+
+            <div class="card-body">
+                <form action="#">
+                    <div class="form-body">
+                        <h3 class="card-title">Editar Usuario</h3>
+                        <hr>
+                        
+                       
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    
+                                    <input value = "{{user!.name}}" placeholder="Nombre" type="text" class="form-control" #name>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                   
+                                    <input value = "{{user!.email}}" placeholder="Email" type="text" class="form-control" #email>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    
+                                    <input value = "{{user!.phone}}" placeholder="Phone" type="text" class="form-control" #phone>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                   
+                                    <input value = "{{user!.role}}" placeholder="Role" type="text" class="form-control" #role>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    
+                                    <input value = "{{user!.age}}" placeholder="Age" type="text" class="form-control" #age>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                   
+                                    <input value = "{{user!.salery}}" placeholder="Salery" type="text" class="form-control" #salery>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                   
+                                    <input   placeholder="nueva contraseña (opcional)" type="text" class="form-control" #password>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="form-actions">
+                        <button (click) = "editUser(name.value,email.value,age.value,phone.value,password.value,role.value,salery.value)" type  = "button" class="btn btn-success"> <i class="fa fa-check"></i> Save</button>
+                        <button (click) = "emitClose()"type="button" class="btn btn-inverse">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+

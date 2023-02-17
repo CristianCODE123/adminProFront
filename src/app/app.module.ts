@@ -13,6 +13,11 @@ import { BreadcrumbsComponent } from './shared/breadcrumbs/breadcrumbs.component
 import { ProgressComponent } from './pages/progress/progress.component';
 import { PagesComponent } from './pages/pages/pages.component';
 import {HttpClientModule} from '@angular/common/http';
+import { UserAdminComponent } from './user-admin/user-admin.component';
+import { RouterLink } from '@angular/router';
+import { EditComponent } from './auth/edit/edit.component';
+import { CreateComponent } from './auth/create/create.component';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   declarations: [
@@ -25,13 +30,17 @@ import {HttpClientModule} from '@angular/common/http';
     HeaderComponent,
     BreadcrumbsComponent,
     ProgressComponent,
-    PagesComponent
+    PagesComponent,
+    UserAdminComponent,
+    EditComponent,
+    CreateComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
-  ],
+    HttpClientModule,
+    NgxPaginationModule
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })

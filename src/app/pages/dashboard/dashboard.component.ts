@@ -15,6 +15,7 @@ export class DashboardComponent {
         console.log("hi")
         this.showUsers();
       }
+
       showUsers(){
         this.users = this.us.listArticle().subscribe(usuario=>{
           console.log(usuario)
