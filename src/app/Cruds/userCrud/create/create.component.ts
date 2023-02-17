@@ -14,13 +14,14 @@ export class CreateComponent {
   
 
  insertUser:any;
- insertUsers(name:any,email:any,age:any,phone:any,password:any){
+ insertUsers(name:any,email:any,age:any,phone:any,password:any,){
    this.insertUser = {
      "name" : name,
      "email": email,
      "age":  age,
      "phone": phone,
-     "password":password
+     "password":password,
+     "rol_id": 1,
    }
 
     this.us.registerUser(this.insertUser).subscribe(res=>{

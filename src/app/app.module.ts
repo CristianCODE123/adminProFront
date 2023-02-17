@@ -15,9 +15,10 @@ import { PagesComponent } from './pages/pages/pages.component';
 import {HttpClientModule} from '@angular/common/http';
 import { UserAdminComponent } from './user-admin/user-admin.component';
 import { RouterLink } from '@angular/router';
-import { EditComponent } from './auth/edit/edit.component';
-import { CreateComponent } from './auth/create/create.component';
+import { EditComponent } from './Cruds/userCrud/edit/edit.component';
+import { CreateComponent } from './Cruds/userCrud/create/create.component';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { FindComponent } from './Cruds/rolesCrud/find/find/find.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
     UserAdminComponent,
     EditComponent,
     CreateComponent,
+    FindComponent,
   ],
   imports: [
     BrowserModule,
