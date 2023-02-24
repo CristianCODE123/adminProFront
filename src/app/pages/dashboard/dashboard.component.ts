@@ -6,6 +6,22 @@ import { UserService } from 'src/app/servicios/user.service';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent {
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
       constructor(private us: UserService){
 
       }
@@ -20,5 +36,11 @@ export class DashboardComponent {
         this.users = this.us.listArticle().subscribe(usuario=>{
           console.log(usuario)
         })
+      }
+
+
+
+      carouselWork(){
+        
       }
 }

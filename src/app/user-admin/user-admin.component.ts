@@ -1,5 +1,6 @@
 import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
 import { UserService } from '../servicios/user.service';
+import { RolesService } from '../servicios/roles/roles.service';
 import { Router } from '@angular/router';
 import { CrudServiceService } from '../servicios/CRUDservices/crud-service.service';
 @Component({
@@ -18,7 +19,7 @@ export class UserAdminComponent {
   constructor(
     private us: UserService,
     private crudS: CrudServiceService,
-      
+    private rs: RolesService,
     ){
 
   }

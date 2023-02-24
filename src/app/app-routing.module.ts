@@ -8,13 +8,18 @@ import { NopagefoundComponent } from './pages/nopagefound/nopagefound.component'
 import { PagesComponent } from './pages/pages/pages.component';
 import { ProgressComponent } from './pages/progress/progress.component';
 import { UserAdminComponent } from './user-admin/user-admin.component';
+import { LivestreamInterfaceComponent } from './liveStreamInterface/livestream-interface/livestream-interface.component';
+import { VideoPlayerComponent } from './liveStreamInterface/video-player/video-player.component';
+import { RtcLiveStreamComponent } from './liveStreamInterface/rtc-live-stream/rtc-live-stream.component';
 const routes: Routes = [
   {path: '', 
   component: PagesComponent,
   children: [
-    {path: 'dashboard', component: DashboardComponent},
+    {path: 'dashboard/live/:user', component: RtcLiveStreamComponent},
+    {path: 'dashboard/init/:user', component: DashboardComponent},
+    {path: 'dashboard/livertc',component: RtcLiveStreamComponent},
     {path: 'progress', component: ProgressComponent},
-    {path: '', redirectTo: '/dashboard',pathMatch:'full'},
+    {path: '', redirectTo: '/dashboard/init/HOME',pathMatch:'full'},
     {path: 'dashboard/userAdmin', component: UserAdminComponent,children: [
       {
         path: 'edit/:id',
@@ -24,10 +29,12 @@ const routes: Routes = [
     ] },
 
   ]},
+  { path: 'data', component: VideoPlayerComponent, pathMatch: 'full' },
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
   //
-  {path: '**', component: NopagefoundComponent}
+  {path: '**', component: NopagefoundComponent},
+  
 ];
 
 @NgModule({
