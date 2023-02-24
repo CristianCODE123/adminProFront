@@ -12,6 +12,7 @@ export class RtcLiveStreamComponent {
 
   @ViewChild("localVideo")
   videoRef!: ElementRef;
+  // Se define un FormGroup para la conversación que contendrá el nombre de la conversación
 
   conversationFormGroup = this.fb.group({
     name: this.fb.control('', [Validators.required])
@@ -19,6 +20,7 @@ export class RtcLiveStreamComponent {
 
   constructor(private fb: FormBuilder) {
   }
+  // Función para obtener el controlador de formulario para el nombre de la conversación
 
   get conversationNameFc(): FormControl {
     return this.conversationFormGroup.get('name') as FormControl;
@@ -27,9 +29,11 @@ export class RtcLiveStreamComponent {
 
   conversation: any;
   remotesCounter = 0;
+  // Función para obtener o crear una nueva conversación
 
   getOrcreateConversation() {
     var localStream:any = null;
+    // Se crea una instancia del objeto UserAgent
 
     //==============================
     // 1/ CREATE USER AGENT
@@ -37,7 +41,8 @@ export class RtcLiveStreamComponent {
     var userAgent = new UserAgent({
       uri: 'apiKey:myDemoApiKey'
     });
-
+   // 2/ REGISTER
+    // Se registra el usuario con el servidor SIP a través del objeto UserAgent
     //==============================
     // 2/ REGISTER
     //==============================
@@ -46,6 +51,8 @@ export class RtcLiveStreamComponent {
       //==============================
       // 3/ CREATE CONVERSATION
       //==============================
+
+       // Se obtiene o crea una nueva conversación a través del objeto Session
       const conversation: Conversation = session.getConversation(this.conversationNameFc.value);
       this.conversation = conversation;
 
@@ -65,6 +72,8 @@ export class RtcLiveStreamComponent {
           }
         }
       });
+            // Se agrega otro controlador de eventos para cuando se agregue o se elimine un flujo de medios en la conversación
+
       //=====================================================
       // 4 BIS/ ADD EVENT LISTENER : WHEN STREAM IS ADDED/REMOVED TO/FROM THE CONVERSATION
       //=====================================================
