@@ -14,6 +14,11 @@ export class UserService {
       'Content-type': 'application/json'
     })
   }
+
+  authLogin(credentials:any){
+    return this.http.post<any>(this.url+'/api/auth/login',credentials,this.httpOptions)
+  }
+
   listArticle(){
     return this.http.get<any>(this.url+'/api/usuario');
   }
