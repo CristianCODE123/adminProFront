@@ -1,7 +1,11 @@
-import { Component, ViewChild, ElementRef } from '@angular/core'
+import { Component, ViewChild, ElementRef,OnInit } from '@angular/core'
 import { FormBuilder, FormControl, Validators } from '@angular/forms'
-
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { LiveStreamService } from 'src/app/servicios/livestream/live-stream.service';
 import { Conversation, UserAgent, Session, Stream } from '@apirtc/apirtc'
+import { SocketService } from 'src/app/servicios/sockets/socket.service';
+import {io} from 'socket.io-client';
+
 @Component({
   selector: 'app-rtc-live-stream',
   templateUrl: './rtc-live-stream.component.html',
@@ -9,7 +13,7 @@ import { Conversation, UserAgent, Session, Stream } from '@apirtc/apirtc'
 })
 export class RtcLiveStreamComponent {
   title = 'ApiRTC-angular';
-
+  publishedStreams:any = [];
   @ViewChild("localVideo")
   videoRef!: ElementRef;
   // Se define un FormGroup para la conversación que contendrá el nombre de la conversación
@@ -18,13 +22,36 @@ export class RtcLiveStreamComponent {
     name: this.fb.control('', [Validators.required])
   });
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+     private route: ActivatedRoute,  
+     private router: Router,
+     private streamService: LiveStreamService, 
+     private ss: SocketService
+     ) {
   }
   // Función para obtener el controlador de formulario para el nombre de la conversación
+ message:any
+  ngOnInit():void{
 
-  get conversationNameFc(): FormControl {
-    return this.conversationFormGroup.get('name') as FormControl;
 
+  }
+ 
+ 
+  see(){
+
+  console.log(this.publishedStreams)
+  this.streamService.stream.emit("stream")
+ }
+  get conversationNameFc():string {
+    return this.route.snapshot.paramMap.get('user')+"";
+
+  }
+ 
+  user:any;
+  startStream(){
+    this.user = this.route.snapshot.paramMap.get('user');
+    console.log(this.user)
   }
 
   conversation: any;
@@ -53,7 +80,7 @@ export class RtcLiveStreamComponent {
       //==============================
 
        // Se obtiene o crea una nueva conversación a través del objeto Session
-      const conversation: Conversation = session.getConversation(this.conversationNameFc.value);
+      const conversation: Conversation = session.getConversation(this.conversationNameFc);
       this.conversation = conversation;
 
       //==========================================================
@@ -95,15 +122,16 @@ export class RtcLiveStreamComponent {
         }
       })
         .then((stream: Stream) => {
+          this.ss.streamStarted();
 
           console.log('createStream :', stream);
+         // this.streamService.stream = stream;
 
           // Save local stream
           localStream = stream;
 
           // Display stream
           localStream.attachToElement(this.videoRef.nativeElement);
-
           //==============================
           // 6/ JOIN CONVERSATION
           //==============================
@@ -113,7 +141,8 @@ export class RtcLiveStreamComponent {
               // 7/ PUBLISH LOCAL STREAM
               //==============================
               conversation.publish(localStream).then((stream: Stream) => {
-                console.log('published', stream);
+                console.log("?xd")  
+
               }).catch((err: any) => {
                 console.error('publish error', err);
               });

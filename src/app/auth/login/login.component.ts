@@ -1,6 +1,15 @@
 import { Component } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { UserService } from 'src/app/servicios/user.service';
+import { ActivatedRoute, Route } from '@angular/router';
+import { Router } from '@angular/router';
+
+interface LoginResponse {
+  access_token: string;
+  token_type: string;
+  expires_in: number;
+}
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -8,7 +17,11 @@ import { UserService } from 'src/app/servicios/user.service';
 })
 export class LoginComponent {
   url:string = "http://localhost:8000"
-  constructor(private http: HttpClient, private us: UserService) { }
+  constructor(private http: HttpClient, 
+    private us: UserService, 
+    private route:ActivatedRoute,
+    private router:Router
+    ){ }
   
   httpOptions = {
     headers : new HttpHeaders({
@@ -19,29 +32,19 @@ export class LoginComponent {
 
 
   login(email:any, password:any) {
-    const credentials = {
-      email: email,
-      password: password
-    };
-    console.log(credentials,333)
-    this.us.authLogin(credentials).subscribe(res=>{
-        console.log(454,res)
-    });
-    return
-    this.http.post('http://tu-backend.com/login', credentials)
-      .subscribe(
-        (response: any) => {
-          console.log(response)
-          // Almacena el token JWT en el almacenamiento local del navegador
-          localStorage.setItem('access_token', response.access_token);
-          // Redirige al usuario a la página principal de la aplicación
-          //this.router.navigate(['/']);
-        },
-        (error) => {
-          // Maneja los errores de autenticación aquí
-        }
-      );
+  this.us.login(email, password).subscribe(
+    (res) => {
+      console.log("res",res)
+      const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+      this.router.navigate([returnUrl]);
+    },
+    error => {
+    }
+  );
+    
+    
+    
   }
-
+  
 
 }

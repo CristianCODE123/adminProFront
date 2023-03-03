@@ -84,9 +84,11 @@
            
             <h3 class="font-normal">Asi es como luce tu stream.</h3>
             <p class="m-b-0 m-t-10">Pulsa el boton para empezar a stremear</p>
-            <button class="btn btn-success btn-rounded waves-effect waves-light m-t-20">Start Stream</button>
-        
-            
+            <form *ngIf="!conversation" [formGroup]="conversationFormGroup" (ngSubmit)="getOrcreateConversation()">
+
+            <button type="submit" (click)="startStream()" class="btn btn-success btn-rounded waves-effect waves-light m-t-20">Start Stream</button>
+                </form>
+
         </div>
     </div>
 </div>
@@ -97,13 +99,8 @@
         <img alt="ApiRTC logo" src="./assets/ApiRTC.png" width="66" height="76" /> &
         <img alt="Angular logo" src="./assets/angular.svg" width="76" height="76" />
     </p>
-    <form *ngIf="!conversation" [formGroup]="conversationFormGroup" (ngSubmit)="getOrcreateConversation()">
-        <mat-form-field>
-            <mat-label>Conversation Name</mat-label>
-            <input type="text" matInput placeholder="abcd" formControlName="name">
-        </mat-form-field>&nbsp;
-        <button mat-raised-button color="primary" type="submit" [disabled]="!conversationFormGroup.valid" title="Get Or Create Conversation">GetOrCreateConversation</button>
-    </form>
+           
+       
     <div *ngIf="conversation" class="container">
         <div id="remote-container" class="fullscreen">
         </div>
@@ -111,6 +108,7 @@
             <video #localVideo autoplay playsinline></video>
         </div>
     </div>
+    <button (click) = "see()">ver publicados</button>
 </div>
 
 

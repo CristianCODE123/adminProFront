@@ -11,20 +11,22 @@ import { UserAdminComponent } from './user-admin/user-admin.component';
 import { LivestreamInterfaceComponent } from './liveStreamInterface/livestream-interface/livestream-interface.component';
 import { VideoPlayerComponent } from './liveStreamInterface/video-player/video-player.component';
 import { RtcLiveStreamComponent } from './liveStreamInterface/rtc-live-stream/rtc-live-stream.component';
+import { AuthGuardGuard } from './auth/guard/auth-guard.guard';
+//hacer que funcione el guard para salvar las rutas
 const routes: Routes = [
   {path: '', 
   component: PagesComponent,
   children: [
-    {path: 'dashboard/live/:user', component: RtcLiveStreamComponent},
-    {path: 'dashboard/init/:user', component: DashboardComponent},
-    {path: 'dashboard/livertc',component: RtcLiveStreamComponent},
-    {path: 'progress', component: ProgressComponent},
-    {path: '', redirectTo: '/dashboard/init/HOME',pathMatch:'full'},
+    {path: 'dashboard/live/:user', component: RtcLiveStreamComponent, canActivate: [AuthGuardGuard]},
+    {path: 'dashboard/init/:user', component: DashboardComponent , canActivate: [AuthGuardGuard]},
+    {path: 'dashboard/livertc',component: RtcLiveStreamComponent , canActivate: [AuthGuardGuard]},
+    {path: 'progress', component: ProgressComponent , canActivate: [AuthGuardGuard]},
+    {path: '', redirectTo: '/dashboard/init/HOME',pathMatch:'full' },
     {path: 'dashboard/userAdmin', component: UserAdminComponent,children: [
       {
         path: 'edit/:id',
         component: EditComponent,
-        pathMatch: 'full'
+        pathMatch: 'full', canActivate: [AuthGuardGuard]
       }
     ] },
 

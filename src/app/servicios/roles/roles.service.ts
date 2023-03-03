@@ -17,5 +17,7 @@ export class RolesService {
   insertNewRol(rol:any){
     return this.http.post<any>(this.url+'/api/roles',rol,this.httpOptions)
   }
-  
+  findRoles(){
+    
+  }  
 }
