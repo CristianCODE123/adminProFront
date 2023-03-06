@@ -69,6 +69,17 @@ async ngOnInit(): Promise<void> {
 
     this.ns.newNotification(mensajeRes).subscribe(res => {
       console.log(res);
+      if(res.notificando == "1"){
+        $.toast({
+          heading: 'a empezado a hacer stream',
+          text: 'Use the predefined ones, or specify a custom position object.',
+          position: 'top-right',
+          loaderBg: '#ff6849',
+          icon: 'success',
+          hideAfter: 3500,
+          stack: 6
+        });
+      }
     });
   this.retornoPrueba = mensaje;
 }

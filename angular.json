@@ -26,9 +26,14 @@
             ],
             "styles": [
               "@angular/material/prebuilt-themes/indigo-pink.css",
-              "src/styles.css"
+              "src/styles.css",
+              "node_modules/jquery-toast-plugin/dist/jquery.toast.min.css"
+
             ],
-            "scripts": []
+            "scripts": [  
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/jquery-toast-plugin/dist/jquery.toast.min.js"
+          ]
           },
           "configurations": {
             "production": {
@@ -93,9 +98,15 @@
             ],
             "styles": [
               "@angular/material/prebuilt-themes/indigo-pink.css",
-              "src/styles.css"
+              "src/styles.css",
+              "node_modules/jquery-toast-plugin/dist/jquery.toast.min.css"
+
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/jquery-toast-plugin/dist/jquery.toast.min.js"
+
+            ]
           }
         }
       }

@@ -5,6 +5,7 @@ import { LiveStreamService } from 'src/app/servicios/livestream/live-stream.serv
 import { Conversation, UserAgent, Session, Stream } from '@apirtc/apirtc'
 import { SocketService } from 'src/app/servicios/sockets/socket.service';
 import {io} from 'socket.io-client';
+import 'jquery-toast-plugin';
 
 @Component({
   selector: 'app-rtc-live-stream',
@@ -16,6 +17,14 @@ export class RtcLiveStreamComponent {
   publishedStreams:any = [];
   @ViewChild("localVideo")
   videoRef!: ElementRef;
+
+  @ViewChild("start")
+  start!: ElementRef;
+
+  @ViewChild("stop")
+  stop!: ElementRef;
+
+
   // Se define un FormGroup para la conversación que contendrá el nombre de la conversación
 
   conversationFormGroup = this.fb.group({
@@ -32,14 +41,14 @@ export class RtcLiveStreamComponent {
   }
   // Función para obtener el controlador de formulario para el nombre de la conversación
  message:any
+ 
   ngOnInit():void{
-
+   
 
   }
  
  
   see(){
-
   console.log(this.publishedStreams)
   this.streamService.stream.emit("stream")
  }
@@ -52,6 +61,13 @@ export class RtcLiveStreamComponent {
   startStream(){
     this.user = this.route.snapshot.paramMap.get('user');
     console.log(this.user)
+
+    const stopButton = document.getElementById('stopButton');
+    setTimeout(() => {
+      this.stop.nativeElement.style.display = 'block';
+
+    }, 3000);
+
   }
 
   conversation: any;
@@ -124,6 +140,7 @@ export class RtcLiveStreamComponent {
         .then((stream: Stream) => {
           this.ss.streamStarted();
 
+
           console.log('createStream :', stream);
          // this.streamService.stream = stream;
 
@@ -153,5 +170,24 @@ export class RtcLiveStreamComponent {
           console.error('create stream error', err);
         });
     });
+
+    
   }
+
+
+
+
+
+
+  stopStream() { 
+    console.log(this.conversation)
+      this.conversation.getStatus();
+    // const localStream = this.conversation.getLocalStreams()[0];
+    // this.conversation.unpublish(localStream);
+    // localStream.detachFromElement(this.videoRef.nativeElement);
+    // localStream.stop();
+    
+  }
+
+  
 }

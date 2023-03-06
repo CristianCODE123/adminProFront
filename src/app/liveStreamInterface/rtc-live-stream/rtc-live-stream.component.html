@@ -81,13 +81,17 @@
     </div>
     <div class="card">
         <div class="card-body">
-           
+
             <h3 class="font-normal">Asi es como luce tu stream.</h3>
             <p class="m-b-0 m-t-10">Pulsa el boton para empezar a stremear</p>
+
             <form *ngIf="!conversation" [formGroup]="conversationFormGroup" (ngSubmit)="getOrcreateConversation()">
 
-            <button type="submit" (click)="startStream()" class="btn btn-success btn-rounded waves-effect waves-light m-t-20">Start Stream</button>
-                </form>
+            <button #start (click)="startStream()" class="btn btn-success btn-rounded waves-effect waves-light m-t-20">Start Stream</button>
+
+
+        </form>
+        <button #stop (click) = "stopStream()"type="submit" class="btn btn-danger btn-rounded waves-effect waves-light m-t-20">Stop Stream</button>
 
         </div>
     </div>
