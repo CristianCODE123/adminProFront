@@ -18,6 +18,9 @@ File: scss
 /*******************
 Login register and recover password Page
 ******************/
+small{
+  display:none;
+}
 .login-register {
     background-size: cover;
     background-repeat: no-repeat;
@@ -49,3 +52,14 @@ Login register and recover password Page
       position: absolute;
       height: 100%; }
   
+
+
+
+.smallError{
+  color:rgb(219, 64, 64);
+  display: block;
+}
+
+.smallOk{
+  display: none;
+}

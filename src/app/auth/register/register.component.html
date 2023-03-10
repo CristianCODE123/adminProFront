@@ -10,26 +10,41 @@
                     <div class="form-group m-t-20">
                         <div class="col-xs-12">
                             <input class="form-control" type="text" required="" placeholder="Nombre"  #name>
+                            <small  [ngClass]="errName ? 'smallError' : 'smallOk'"
+                           class="form-control-feedback "> This field has error. </small>
+                        </div>
+                    </div>
+                    <div class="form-group ">
+                        <div class="col-xs-12">
+                            <input class="form-control" type="text" required="" placeholder="username" #username>
+                            <small [ngClass]="errUsername ? 'smallError' : 'smallOk'"
+                             class="form-control-feedback"> This field has error. </small>
                         </div>
                     </div>
                     <div class="form-group ">
                         <div class="col-xs-12">
                             <input class="form-control" type="text" required="" placeholder="Correo" #email>
+                            <small [ngClass]="errEmail ? 'smallError' : 'smallOk'"
+                                    class="form-control-feedback"> This field has error. </small>
                         </div>
                     </div>
                     <div class="form-group ">
                         <div class="col-xs-12">
                             <input class="form-control" type="number" required="" placeholder="Edad" #age>
+                            <small class="form-control-feedback"> This field has error. </small>
                         </div>
                     </div>
                     <div class="form-group ">
                         <div class="col-xs-12">
                             <input class="form-control" type="number" required="" placeholder="Numero telefonico" #phone>
+                            <small class="form-control-feedback"> This field has error. </small>
                         </div>
                     </div>
                     <div class="form-group ">
                         <div class="col-xs-12">
                             <input class="form-control" type="password" required="" placeholder="Contraseña" #password>
+                            <small [ngClass]="errPassword ? 'smallError' : 'smallOk'"
+                             class="form-control-feedback"> This field has error. </small>
                         </div>
                     </div>
                     <!-- <div class="form-group">
@@ -47,7 +62,7 @@
                     </div>
                     <div class="form-group text-center m-t-20">
                         <div class="col-xs-12">
-                            <button (click) = "insertUsers(name.value,email.value,age.value,phone.value,password.value)" class="btn btn-info btn-lg btn-block text-uppercase waves-effect waves-light" type="button">Sign Up</button>
+                            <button (click) = "insertUsers(name.value,username.value,email.value,age.value,phone.value,password.value)" class="btn btn-info btn-lg btn-block text-uppercase waves-effect waves-light" type="button">Sign Up</button>
                         </div>
                     </div>
                     <div class="form-group m-b-0">

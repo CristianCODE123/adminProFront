@@ -33,7 +33,7 @@ export class EditComponent {
       age: age,
       phone: phone,
       password: password,
-      role: role,
+      rol_id: role,
       salery: salery
     }
 

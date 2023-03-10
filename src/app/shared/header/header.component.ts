@@ -4,6 +4,8 @@ import { UserService } from 'src/app/servicios/user.service';
 import { Router } from '@angular/router';
 import { SocketService } from 'src/app/servicios/sockets/socket.service';
 import { NotificationService } from 'src/app/servicios/notification/notification.service';
+declare var $: any;
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -15,7 +17,7 @@ constructor(
   private us: UserService, 
   private router: Router , 
   private ss: SocketService,
-  private ns: NotificationService
+  private ns: NotificationService,
   ){
 }
 retornoPrueba:any;
@@ -53,6 +55,9 @@ ngAfterViewInit(){
   
   )
 }
+
+userName:any
+
 async ngOnInit(): Promise<void> {
   console.log("headers");
   await this.ss.isConnectedNotification();
@@ -66,12 +71,12 @@ async ngOnInit(): Promise<void> {
 
   this.notificaciones.push(mensajeRes)
   console.log(this.notificaciones);
-
     this.ns.newNotification(mensajeRes).subscribe(res => {
+     this.userName =  this.us.getCurrentUserName().username
       console.log(res);
       if(res.notificando == "1"){
         $.toast({
-          heading: 'a empezado a hacer stream',
+          heading: this.userName+' a empezado a hacer stream',
           text: 'Use the predefined ones, or specify a custom position object.',
           position: 'top-right',
           loaderBg: '#ff6849',

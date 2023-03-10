@@ -12,16 +12,18 @@ import { LivestreamInterfaceComponent } from './liveStreamInterface/livestream-i
 import { VideoPlayerComponent } from './liveStreamInterface/video-player/video-player.component';
 import { RtcLiveStreamComponent } from './liveStreamInterface/rtc-live-stream/rtc-live-stream.component';
 import { AuthGuardGuard } from './auth/guard/auth-guard.guard';
+import { UserLiveGuardGuard } from './auth/guard/user-live-guard.guard';
+import { RouteWithUserNameGuard } from './auth/guard/route-with-user-name.guard';
 //hacer que funcione el guard para salvar las rutas
 const routes: Routes = [
   {path: '', 
   component: PagesComponent,
   children: [
-    {path: 'dashboard/live/:user', component: RtcLiveStreamComponent, canActivate: [AuthGuardGuard]},
+    {path: 'dashboard/live/:user', component: RtcLiveStreamComponent, canActivate: [AuthGuardGuard,UserLiveGuardGuard]},
     {path: 'dashboard/init/:user', component: DashboardComponent , canActivate: [AuthGuardGuard]},
     {path: 'dashboard/livertc',component: RtcLiveStreamComponent , canActivate: [AuthGuardGuard]},
     {path: 'progress', component: ProgressComponent , canActivate: [AuthGuardGuard]},
-    {path: '', redirectTo: '/dashboard/init/HOME',pathMatch:'full' },
+    {path: '', redirectTo: '/dashboard/init/',pathMatch:'full' },
     {path: 'dashboard/userAdmin', component: UserAdminComponent,children: [
       {
         path: 'edit/:id',

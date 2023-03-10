@@ -29,21 +29,21 @@ export class LoginComponent {
     })
   }
 
+  userName:any
 
 
   login(email:any, password:any) {
-  this.us.login(email, password).subscribe(
-    (res) => {
-      console.log("res",res)
-      const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-      this.router.navigate([returnUrl]);
-    },
-    error => {
-    }
-  );
-    
-    
-    
+    this.us.login(email, password).subscribe(
+      (res) => {
+        console.log("res",res)
+        const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+        const user =  this.userName = this.us.getCurrentUserName().username;
+        ; // Aquí suponemos que la respuesta de la API incluye la información del usuario autenticado, incluyendo su nombre de usuario.
+        this.router.navigate(['/dashboard/init', user]); // Actualizamos la ruta con el nombre de usuario y redirigimos al usuario a la página de inicio.
+      },
+      error => {
+      }
+    );
   }
   
 

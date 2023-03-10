@@ -4,6 +4,8 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { LiveStreamService } from 'src/app/servicios/livestream/live-stream.service';
 import { Conversation, UserAgent, Session, Stream } from '@apirtc/apirtc'
 import { SocketService } from 'src/app/servicios/sockets/socket.service';
+import { HttpClient } from '@angular/common/http';
+
 import {io} from 'socket.io-client';
 import 'jquery-toast-plugin';
 
@@ -26,7 +28,33 @@ export class RtcLiveStreamComponent {
 
 
   // Se define un FormGroup para la conversación que contendrá el nombre de la conversación
+  capture() {
+    const canvas = document.createElement('canvas');
+    canvas.width = this.videoRef.nativeElement.videoWidth;
+    canvas.height = this.videoRef.nativeElement.videoHeight;
+     canvas.getContext('2d')!.drawImage(this.videoRef.nativeElement, 0, 0);
+    const imageData = canvas.toDataURL('image/png');
 
+    const link = document.createElement('a');
+    link.href = imageData;
+    
+
+    const currentTime = this.videoRef.nativeElement.currentTime;
+    
+    if (currentTime > 0 && parseInt(currentTime)  % 15 === 0  ) {
+      const formData = new FormData();
+       const socket = io('http://localhost:3000');
+      console.log("imagen enviada")
+       socket.emit('image', imageData);
+
+    }
+    console.log(currentTime)
+
+    // Establece el nombre de archivo y descarga la imagen
+    // link.download = 'captura.png';
+    // link.click();
+  }
+  
   conversationFormGroup = this.fb.group({
     name: this.fb.control('', [Validators.required])
   });
@@ -36,7 +64,8 @@ export class RtcLiveStreamComponent {
      private route: ActivatedRoute,  
      private router: Router,
      private streamService: LiveStreamService, 
-     private ss: SocketService
+     private ss: SocketService,
+     private http: HttpClient
      ) {
   }
   // Función para obtener el controlador de formulario para el nombre de la conversación
@@ -44,13 +73,16 @@ export class RtcLiveStreamComponent {
  
   ngOnInit():void{
    
+    // setInterval(() => {
+    //   this.capture();
+    // }, 1000);
 
   }
  
  
   see(){
   console.log(this.publishedStreams)
-  this.streamService.stream.emit("stream")
+  
  }
   get conversationNameFc():string {
     return this.route.snapshot.paramMap.get('user')+"";
@@ -61,7 +93,7 @@ export class RtcLiveStreamComponent {
   startStream(){
     this.user = this.route.snapshot.paramMap.get('user');
     console.log(this.user)
-
+    this.streamService.stream.emit(this.user)
     const stopButton = document.getElementById('stopButton');
     setTimeout(() => {
       this.stop.nativeElement.style.display = 'block';
@@ -73,9 +105,9 @@ export class RtcLiveStreamComponent {
   conversation: any;
   remotesCounter = 0;
   // Función para obtener o crear una nueva conversación
-
+   localStream:any = null;
+  streamId:any;
   getOrcreateConversation() {
-    var localStream:any = null;
     // Se crea una instancia del objeto UserAgent
 
     //==============================
@@ -102,14 +134,16 @@ export class RtcLiveStreamComponent {
       //==========================================================
       // 4/ ADD EVENT LISTENER : WHEN NEW STREAM IS AVAILABLE IN CONVERSATION
       //==========================================================
-      conversation.on('streamListChanged', (streamInfo: any) => {
+
+      this.conversation.on('streamListChanged', (streamInfo: any) => {
         console.log("streamListChanged :", streamInfo);
         if (streamInfo.listEventType === 'added') {
           if (streamInfo.isRemote === true) {
-            conversation.subscribeToMedia(streamInfo.streamId)
+            this.conversation.subscribeToMedia(streamInfo.streamId)
               .then((stream: Stream) => {
+                this.streamId = streamInfo.streamId;
                 console.log('subscribeToMedia success', stream);
-              }).catch((err) => {
+              }).catch((err:any) => {
                 console.error('subscribeToMedia error', err);
               });
           }
@@ -120,7 +154,7 @@ export class RtcLiveStreamComponent {
       //=====================================================
       // 4 BIS/ ADD EVENT LISTENER : WHEN STREAM IS ADDED/REMOVED TO/FROM THE CONVERSATION
       //=====================================================
-      conversation.on('streamAdded', (stream: Stream) => {
+      this.conversation.on('streamAdded', (stream: Stream) => {
         this.remotesCounter += 1;
         stream.addInDiv('remote-container', 'remote-media-' + stream.streamId, {}, false);
       }).on('streamRemoved', (stream: any) => {
@@ -131,33 +165,40 @@ export class RtcLiveStreamComponent {
       //==============================
       // 5/ CREATE LOCAL STREAM
       //==============================
+
+
+
+      if(this.conversationNameFc == this.conversationNameFc){
+
+      }
+
       userAgent.createStream({
         constraints: {
           audio: true,
-          video: true
+          video: false
         }
       })
         .then((stream: Stream) => {
-          this.ss.streamStarted();
+          this.ss.streamStarted(this.conversationNameFc);
 
 
           console.log('createStream :', stream);
          // this.streamService.stream = stream;
 
           // Save local stream
-          localStream = stream;
+          this.localStream = stream;
 
           // Display stream
-          localStream.attachToElement(this.videoRef.nativeElement);
+          this.localStream.attachToElement(this.videoRef.nativeElement);
           //==============================
           // 6/ JOIN CONVERSATION
           //==============================
-          conversation.join()
+          this.conversation.join()
             .then(() => {
               //==============================
               // 7/ PUBLISH LOCAL STREAM
               //==============================
-              conversation.publish(localStream).then((stream: Stream) => {
+              this.conversation.publish(this.localStream).then((stream: Stream) => {
                 console.log("?xd")  
 
               }).catch((err: any) => {
@@ -186,7 +227,9 @@ export class RtcLiveStreamComponent {
     // this.conversation.unpublish(localStream);
     // localStream.detachFromElement(this.videoRef.nativeElement);
     // localStream.stop();
-    
+    this.localStream.release();
+    this.conversation.unsubscribeToMedia(this.streamId);
+    // this.conversation.leave();
   }
 
   

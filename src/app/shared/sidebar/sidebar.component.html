@@ -8,7 +8,7 @@
                 <nav class="sidebar-nav" >
                     <ul id="sidebarnav" >
                         <li class="user-profile">
-                            <a class="has-arrow waves-effect waves-dark" aria-expanded="false"><img src="../assets/images/users/profile.png" alt="user" /><span class="hide-menu">Steave Jobs </span></a>
+                            <a  (click) = "expandCollapse($event)"class="has-arrow waves-effect waves-dark" aria-expanded="false"><img src="../assets/images/users/profile.png" alt="user" /><span class="hide-menu">Steave Jobs </span></a>
                             <ul aria-expanded="false" class="collapse">
                                 <li><a href="javascript:void()">My Profile </a></li>
                                 <li><a href="javascript:void()">My Balance</a></li>
@@ -19,8 +19,8 @@
                         </li>
                         <li class="nav-devider"></li>
                         <li class="nav-small-cap">PERSONAL</li>
-                        <li> <a class="has-arrow waves-effect waves-dark" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Dashboard <span class="label label-rouded label-themecolor pull-right">4</span></span></a>
-                            <ul aria-expanded="false" class="collapse" >
+                        <li> <a (click) = "expandCollapse($event)" class="has-arrow waves-effect waves-dark" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Dashboard <span class="label label-rouded label-themecolor pull-right">4</span></span></a>
+                            <ul   aria-expanded="false" class="collapse" [@expandCollapseAnimation] >
                                 <li><a [routerLink]="['dashboard/userAdmin']">Control Users </a></li>
                                 <li><a href="index2.html">Analytical</a></li>
                                 <li><a href="index3.html">Demographical</a></li>
@@ -28,9 +28,9 @@
                             </ul>
                         </li>
 
-                        <li> <a class="has-arrow waves-effect waves-dark" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Livestream <span class="label label-rouded label-themecolor pull-right">4</span></span></a>
-                            <ul aria-expanded="false" class="collapse">
-                                <li><a [routerLink]="['dashboard/live/HOME']">Casual</a></li>
+                        <li> <a (click) = "expandCollapse($event)" class="has-arrow waves-effect waves-dark" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Livestream <span class="label label-rouded label-themecolor pull-right">4</span></span></a>
+                            <ul aria-expanded="false" class="collapse"  [@expandCollapseAnimation]>
+                                <li><a [routerLink]="['dashboard/live/'+userName]">Casual</a></li>
                                 <li><a >Premium</a></li>
                                 <li><a >Stremear</a></li>
                             </ul>

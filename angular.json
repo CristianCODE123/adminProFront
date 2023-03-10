@@ -29,10 +29,12 @@
               "src/styles.css",
               "node_modules/jquery-toast-plugin/dist/jquery.toast.min.css"
 
+
             ],
             "scripts": [  
               "node_modules/jquery/dist/jquery.min.js",
-              "node_modules/jquery-toast-plugin/dist/jquery.toast.min.js"
+              "node_modules/jquery-toast-plugin/dist/jquery.toast.min.js",
+              "node_modules/bootstrap/dist/js/bootstrap.min.js"
           ]
           },
           "configurations": {
@@ -101,11 +103,12 @@
               "src/styles.css",
               "node_modules/jquery-toast-plugin/dist/jquery.toast.min.css"
 
+
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
-              "node_modules/jquery-toast-plugin/dist/jquery.toast.min.js"
-
+              "node_modules/jquery-toast-plugin/dist/jquery.toast.min.js",
+              "node_modules/bootstrap/dist/js/bootstrap.min.js"
             ]
           }
         }

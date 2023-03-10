@@ -8,12 +8,13 @@ import { Observable } from 'rxjs';
 
 export class SocketService {
 
-  private socket: any;
+  socket: any;
   message:any;
   constructor() {
     this.socket = io('http://localhost:3000'); // Cambia la URL por la de tu servidor de Socket.io
    }
 
+  
 
    public isConnectedNotification(): Promise<void> {
     return new Promise<void>((resolve) => {
@@ -33,10 +34,10 @@ export class SocketService {
    public getMessage(){
     return this.message;
    }
-   public streamStarted(): void {
+   public streamStarted(user:any): void {
     console.log("all migthy")
     const socket = io('http://localhost:3000');
-    socket.emit('stream-started',"usuario X");
+    socket.emit('stream-started',user);
   }
 
    public sendStreamStartedNotification(): void {
