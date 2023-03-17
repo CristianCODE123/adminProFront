@@ -41,7 +41,7 @@ export class RegisterComponent {
       }
        if(typeof res.name !== 'undefined' && res.name != null){
         this.errName = true;
-        alert("errName")
+        
 
       }else{
         this.errName = false;

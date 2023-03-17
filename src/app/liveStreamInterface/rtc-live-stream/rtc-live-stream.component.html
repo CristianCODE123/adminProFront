@@ -91,12 +91,11 @@
 
 
         </form>
-        <button #stop (click) = "stopStream()"type="submit" class="btn btn-danger btn-rounded waves-effect waves-light m-t-20">Stop Stream</button>
+        <button *ngIf="conversation"  #stop (click) = "stopStream()"type="submit" class="btn btn-danger btn-rounded waves-effect waves-light m-t-20">Stop Stream</button>
 
         </div>
     </div>
 </div>
-
 <div id="app">
 
     <p>
@@ -112,7 +111,9 @@
             <video #localVideo autoplay playsinline></video>
         </div>
     </div>
-    <button (click) = "stopStream()">ver publicados</button>
+    <button (click) = "detectar()">ver publicados</button>
+    <button (click) = "getAllStreams()">streams</button>
 </div>
 
 
+<app-chat></app-chat>

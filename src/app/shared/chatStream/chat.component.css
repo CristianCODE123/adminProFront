@@ -3,3 +3,8 @@
     margin-left: 78.3%;
     margin-top: -1.4%;
 }
+
+.chat-list {
+    max-height: 300px;
+    overflow-y: auto;
+  }

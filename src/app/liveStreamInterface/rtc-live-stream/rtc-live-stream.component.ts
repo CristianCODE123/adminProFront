@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef,OnInit } from '@angular/core'
+import { Component, ViewChild, ElementRef,OnInit , HostListener } from '@angular/core'
 import { FormBuilder, FormControl, Validators } from '@angular/forms'
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { LiveStreamService } from 'src/app/servicios/livestream/live-stream.service';
@@ -27,6 +27,9 @@ export class RtcLiveStreamComponent {
   stop!: ElementRef;
 
 
+  
+
+
   // Se define un FormGroup para la conversación que contendrá el nombre de la conversación
   capture() {
     const canvas = document.createElement('canvas');
@@ -41,10 +44,10 @@ export class RtcLiveStreamComponent {
 
     const currentTime = this.videoRef.nativeElement.currentTime;
     
-    if (currentTime > 0 && parseInt(currentTime)  % 15 === 0  ) {
+    if (currentTime > 0 && parseInt(currentTime)  % 5 === 0  ) {
       const formData = new FormData();
        const socket = io('http://localhost:3000');
-      console.log("imagen enviada")
+      console.log("imagen enviada");
        socket.emit('image', imageData);
 
     }
@@ -55,6 +58,16 @@ export class RtcLiveStreamComponent {
     // link.click();
   }
   
+  @HostListener('window:beforeunload', ['$event'])
+
+
+   handleBeforeUnload(event:any) {
+    event.preventDefault();
+    event.returnValue = '';
+    // Eliminar la variable del localStorage al cerrar la pestaña o recargar la página
+    localStorage.removeItem('currentStream');  
+  }
+
   conversationFormGroup = this.fb.group({
     name: this.fb.control('', [Validators.required])
   });
@@ -70,12 +83,34 @@ export class RtcLiveStreamComponent {
   }
   // Función para obtener el controlador de formulario para el nombre de la conversación
  message:any
+ conversationDetect:any;
  
-  ngOnInit():void{
+ detectar(){
+  console.log("ls", localStorage.getItem('currentStream'))
+  console.log(666,this.localStream?.isAudioEnabled())
+  console.log(666,this.localStream?.isVideoEnabled())
+console.log(666,this.localStream?.hasAudio())
+console.log(666, this.localStream?.hasData());
+ }
+ localStorageCondition:any;
+ usernameValue:any;
+ async ngOnInit():Promise<void>{
+  console.log("localStorage: " + localStorage.getItem('currentStream'))
+   await this.ss.getAllStreams();
+    console.log("streams:")
+    console.log(908,this.ss.listStreams)
+ 
    
-    // setInterval(() => {
-    //   this.capture();
-    // }, 1000);
+//en la ejecucion antes de iniciar el stream se hace la validacion si es que ya se inicio el stream es distinto a undefined
+
+if(localStorage.getItem('currentStream') == undefined){
+  this.ss.finishUser(this.conversationNameFc);
+
+    }
+    
+    setInterval(() => {
+      this.capture();
+    }, 1000);
 
   }
  
@@ -104,8 +139,9 @@ export class RtcLiveStreamComponent {
 
   conversation: any;
   remotesCounter = 0;
+  activeConversations:any;
   // Función para obtener o crear una nueva conversación
-   localStream:any = null;
+   localStream:Stream | undefined;
   streamId:any;
   getOrcreateConversation() {
     // Se crea una instancia del objeto UserAgent
@@ -130,11 +166,26 @@ export class RtcLiveStreamComponent {
        // Se obtiene o crea una nueva conversación a través del objeto Session
       const conversation: Conversation = session.getConversation(this.conversationNameFc);
       this.conversation = conversation;
+      this.activeConversations = session.getActiveConversations();
+      localStorage.setItem('currentStream', JSON.stringify({ conversation: this.conversation }));
+      this.localStorageCondition = this.conversation;
 
+
+
+      if(this.localStorageCondition != undefined || this.localStorageCondition != ""){
+
+
+        window.addEventListener('beforeunload', (event) => {
+          this.handleBeforeUnload(event);
+        });
+        
+
+       
+      }
       //==========================================================
       // 4/ ADD EVENT LISTENER : WHEN NEW STREAM IS AVAILABLE IN CONVERSATION
       //==========================================================
-
+      //
       this.conversation.on('streamListChanged', (streamInfo: any) => {
         console.log("streamListChanged :", streamInfo);
         if (streamInfo.listEventType === 'added') {
@@ -156,8 +207,10 @@ export class RtcLiveStreamComponent {
       //=====================================================
       this.conversation.on('streamAdded', (stream: Stream) => {
         this.remotesCounter += 1;
+        console.log("remotesCounter",this.remotesCounter)
         stream.addInDiv('remote-container', 'remote-media-' + stream.streamId, {}, false);
       }).on('streamRemoved', (stream: any) => {
+        console.log("remotesCounter",this.remotesCounter)
         this.remotesCounter -= 1;
         stream.removeFromDiv('remote-container', 'remote-media-' + stream.streamId);
       });
@@ -168,9 +221,6 @@ export class RtcLiveStreamComponent {
 
 
 
-      if(this.conversationNameFc == this.conversationNameFc){
-
-      }
 
       userAgent.createStream({
         constraints: {
@@ -216,20 +266,37 @@ export class RtcLiveStreamComponent {
   }
 
 
-
+  getAllStreams(){
+    this.ss.getAllStreams();
+    console.log("streams:")
+    console.log(this.ss.getStreams())
+    
+  }
 
 
 
   stopStream() { 
     console.log(this.conversation)
-      this.conversation.getStatus();
-    // const localStream = this.conversation.getLocalStreams()[0];
-    // this.conversation.unpublish(localStream);
+      // this.conversation.getStatus();
     // localStream.detachFromElement(this.videoRef.nativeElement);
-    // localStream.stop();
-    this.localStream.release();
+    this.localStream?.release();
+
+  
     this.conversation.unsubscribeToMedia(this.streamId);
-    // this.conversation.leave();
+    this.conversation.leave();
+    window.removeEventListener('beforeunload', this.handleBeforeUnload);
+    this.videoRef.nativeElement.pause();
+    this.videoRef.nativeElement.rsc = null;
+    this.localStream?.removeFromDiv('remote-container', 'remote-media-')
+     this.ss.finishUser(this.conversationNameFc)
+
+    console.log(this.activeConversations);
+const conversationIds = Object.keys(this.activeConversations); // Obtener todos los identificadores de conversación
+const conversations = conversationIds.map(id => this.activeConversations[id]); // Obtener todas las conversaciones a través de sus identificadores
+console.log("conversations: en tiempo real")
+console.log(conversations); 
+console.log("close");
+
   }
 
   

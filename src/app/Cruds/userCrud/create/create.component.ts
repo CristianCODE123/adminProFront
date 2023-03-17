@@ -14,7 +14,7 @@ export class CreateComponent {
   
 
  insertUser:any;
- insertUsers(name:any,email:any,age:any,phone:any,password:any,){
+ insertUsers(name:any,email:any,age:any,phone:any,password:any){
    this.insertUser = {
      "name" : name,
      "email": email,
@@ -36,4 +36,5 @@ export class CreateComponent {
 
 
  }
+ 
 }

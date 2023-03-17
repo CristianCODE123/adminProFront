@@ -6,11 +6,12 @@
 	<input type="radio" name="testimonial" id="t-3" checked>
 	<input type="radio" name="testimonial" id="t-4">
 	<input type="radio" name="testimonial" id="t-5">
-	<div class="testimonials">
-		<label  class="item" for="t-1">
-			<app-video-player></app-video-player>
+	<div  class="testimonials">
+		<label *ngFor = "let stream of streamList;let i = index"  class="item" for="t-{{i+1}}">
+			<h5 style = "color:white">{{stream}}</h5>
 		</label>
-		<label class="item" for="t-2">
+
+		<!-- <label class="item" for="t-2">
 			<h2>2</h2>
 		</label>
 		<label class="item" for="t-3">
@@ -21,7 +22,7 @@
 		</label>
 		<label class="item" for="t-5">
 			<h2>5</h2>
-		</label>
+		</label> -->
 	</div>
 	<br/>
 	<div class="dots">
@@ -36,3 +37,5 @@
 <div >
 	<video #remoteVideo></video>
   </div>
+
+  <button (click) = "getList()">xxxxxxxxxxxxxxxxxxxx</button>

@@ -20,10 +20,10 @@ const routes: Routes = [
   component: PagesComponent,
   children: [
     {path: 'dashboard/live/:user', component: RtcLiveStreamComponent, canActivate: [AuthGuardGuard,UserLiveGuardGuard]},
-    {path: 'dashboard/init/:user', component: DashboardComponent , canActivate: [AuthGuardGuard]},
+    {path: 'dashboard/init/Home', component: DashboardComponent , canActivate: [AuthGuardGuard]},
     {path: 'dashboard/livertc',component: RtcLiveStreamComponent , canActivate: [AuthGuardGuard]},
     {path: 'progress', component: ProgressComponent , canActivate: [AuthGuardGuard]},
-    {path: '', redirectTo: '/dashboard/init/',pathMatch:'full' },
+    {path: '', redirectTo: '/dashboard/init/Home',pathMatch:'full' },
     {path: 'dashboard/userAdmin', component: UserAdminComponent,children: [
       {
         path: 'edit/:id',

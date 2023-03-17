@@ -24,7 +24,9 @@ export class UserAdminComponent {
 
   }
 
- 
+ findAllRoles(){
+  // this.rs.
+ }
   collapseRow(){
     this.columnaColapsada = true
     this.filaEditada = [];
