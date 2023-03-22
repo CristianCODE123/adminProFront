@@ -51,7 +51,7 @@ export class RtcLiveStreamComponent {
        socket.emit('image', imageData);
 
     }
-    console.log(currentTime)
+    console.log(currentTime,"currentTime")
 
     // Establece el nombre de archivo y descarga la imagen
     // link.download = 'captura.png';
@@ -107,10 +107,13 @@ if(localStorage.getItem('currentStream') == undefined){
   this.ss.finishUser(this.conversationNameFc);
 
     }
-    
-    setInterval(() => {
-      this.capture();
-    }, 1000);
+    if(this.localStream != undefined){
+  // setInterval(() => {
+  //     this.capture();
+  //   }, 1000);
+  console.log("xd")
+    }
+  
 
   }
  

@@ -1,3 +1,17 @@
 .colapsada {
     display: none;
   }
+
+
+  .smallError{
+    color:rgb(219, 64, 64);
+    display: block;
+  }
+  
+  .smallOk{
+    display: none;
+  }
+
+  .form-control-feedback{
+    margin-left: 1em;
+  }

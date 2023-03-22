@@ -1,0 +1,8 @@
+.smallError{
+    color:rgb(219, 64, 64);
+    display: block;
+  }
+  
+  .smallOk{
+    display: none;
+  }

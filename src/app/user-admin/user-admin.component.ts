@@ -10,6 +10,10 @@ import { CrudServiceService } from '../servicios/CRUDservices/crud-service.servi
 })
 export class UserAdminComponent {
   @ViewChild('parentDiv', { static: true }) parentDiv: ElementRef = new ElementRef(null);
+
+  @ViewChild("rolName")
+  rolName!: ElementRef;
+
   paginaActual = 1;
   users:any = [];
   idDelete:any;
@@ -23,9 +27,12 @@ export class UserAdminComponent {
     ){
 
   }
-
+  roles:any;
  findAllRoles(){
-  // this.rs.
+   this.rs.findRoles().subscribe(res=>{
+    this.roles = res; 
+    console.log(res)
+   })
  }
   collapseRow(){
     this.columnaColapsada = true
@@ -34,8 +41,27 @@ export class UserAdminComponent {
     console.log("XD")
   }
 
-  ngOnInit():void{
+  errRol:any;
+  insertRol(){
+   let rolName  =  this.rolName.nativeElement.value;
+    console.log(rolName) 
+    if(this.rolName.nativeElement.value == "" || this.rolName.nativeElement.value == undefined){
+      this.errRol = true;
+      return
+    }else{
+      this.errRol = false;
+      alert("creado correctamente")
+    }
 
+   let rol = {rol: rolName }
+    this.rs.insertNewRol(rol).subscribe(res=>{
+      if(res.RolCreado != "1"){
+          this.errRol = true;
+      }
+    })
+  }
+  ngOnInit():void{
+    this.findAllRoles()
     
     this.indicatorsPerRole()
     this.crudS.closeRow.subscribe(res=>{
