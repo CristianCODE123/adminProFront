@@ -17,6 +17,11 @@ export class SocketService {
    }
 
   
+    
+      public getAllMesagesFromSession(){
+  
+          }
+
 
    public isConnectedNotification(): Promise<void> {
     return new Promise<void>((resolve) => {
@@ -31,7 +36,13 @@ export class SocketService {
       });
     });
   }
-
+  messages: string[] = [];
+  
+  public getMesages(){
+    this.socket.on('chat message', (msg: string) => {
+      this.messages.push(msg);
+    });
+  }
    public getMessage(){
     return this.message;
    }

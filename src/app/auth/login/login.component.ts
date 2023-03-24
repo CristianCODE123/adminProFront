@@ -41,8 +41,11 @@ export class LoginComponent {
         ; // Aquí suponemos que la respuesta de la API incluye la información del usuario autenticado, incluyendo su nombre de usuario.
         this.router.navigate(['/dashboard/init/Home']); // Actualizamos la ruta con el nombre de usuario y redirigimos al usuario a la página de inicio.
       },
+
       error => {
+
       }
+      
     );
   }
   
